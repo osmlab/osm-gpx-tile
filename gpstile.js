@@ -28,6 +28,14 @@ function xml(url, callback) {
         xml(url, function(err, x) {
             if (err) return; // TODO: handle
             draw(canvas, xyz, toGeoJSON.gpx(x.responseXML));
+            xml(url + '&page=1', function(err, x) {
+                if (err) return; // TODO: handle
+                draw(canvas, xyz, toGeoJSON.gpx(x.responseXML));
+            });
+            xml(url + '&page=2', function(err, x) {
+                if (err) return; // TODO: handle
+                draw(canvas, xyz, toGeoJSON.gpx(x.responseXML));
+            });
             cb();
         });
     }
@@ -45,8 +53,9 @@ function xml(url, callback) {
                 Math.abs(a[1] - b[1]));
         }
         var ctx = c.getContext('2d');
+        ctx.globalCompositeOperation = 'lighter';
         var px;
-        var colors = ['cyan', 'magenta', 'yellow', 'green'];
+        var colors = ['cyan', 'magenta', 'yellow', '#96FFA7'];
         ctx.lineWidth = 2;
         ctx.globalAlpha = 0.7;
         var color = 0;
@@ -64,15 +73,17 @@ function xml(url, callback) {
 
                 for (var j = 1; j < coords.length; j++) {
                     px = tileProj(coords[j]);
-                    if (dist(px, last) > 30) {
+                    var d = dist(px, last);
+                    if (d > 30) {
                         ctx.stroke();
                         ctx.strokeStyle = colors[color++ % 4];
                         ctx.beginPath();
                         ctx.moveTo(px[0], px[1]);
-                    } else {
+                        last = px;
+                    } else if (d > 2) {
                         ctx.lineTo(px[0], px[1]);
+                        last = px;
                     }
-                    last = px;
                 }
 
                 ctx.stroke();
@@ -84,7 +95,28 @@ function xml(url, callback) {
     if (typeof window !== 'undefined') window.gpsTile = gpsTile;
 })();
 
-},{"sphericalmercator":2,"autoscale-canvas":3}],2:[function(require,module,exports){var SphericalMercator = (function(){
+},{"autoscale-canvas":2,"sphericalmercator":3}],2:[function(require,module,exports){
+/**
+ * Retina-enable the given `canvas`.
+ *
+ * @param {Canvas} canvas
+ * @return {Canvas}
+ * @api public
+ */
+
+module.exports = function(canvas){
+  var ctx = canvas.getContext('2d');
+  var ratio = window.devicePixelRatio || 1;
+  if (1 != ratio) {
+    canvas.style.width = canvas.width + 'px';
+    canvas.style.height = canvas.height + 'px';
+    canvas.width *= ratio;
+    canvas.height *= ratio;
+    ctx.scale(ratio, ratio);
+  }
+  return canvas;
+};
+},{}],3:[function(require,module,exports){var SphericalMercator = (function(){
 
 // Closures including constants and other precalculated values.
 var cache = {},
@@ -255,25 +287,4 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined') {
     module.exports = exports = SphericalMercator;
 }
 
-},{}],3:[function(require,module,exports){
-/**
- * Retina-enable the given `canvas`.
- *
- * @param {Canvas} canvas
- * @return {Canvas}
- * @api public
- */
-
-module.exports = function(canvas){
-  var ctx = canvas.getContext('2d');
-  var ratio = window.devicePixelRatio || 1;
-  if (1 != ratio) {
-    canvas.style.width = canvas.width + 'px';
-    canvas.style.height = canvas.height + 'px';
-    canvas.width *= ratio;
-    canvas.height *= ratio;
-    ctx.scale(ratio, ratio);
-  }
-  return canvas;
-};
 },{}]},{},[1]);

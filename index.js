@@ -28,6 +28,14 @@ function xml(url, callback) {
         xml(url, function(err, x) {
             if (err) return; // TODO: handle
             draw(canvas, xyz, toGeoJSON.gpx(x.responseXML));
+            xml(url + '&page=1', function(err, x) {
+                if (err) return; // TODO: handle
+                draw(canvas, xyz, toGeoJSON.gpx(x.responseXML));
+            });
+            xml(url + '&page=2', function(err, x) {
+                if (err) return; // TODO: handle
+                draw(canvas, xyz, toGeoJSON.gpx(x.responseXML));
+            });
             cb();
         });
     }
@@ -37,27 +45,44 @@ function xml(url, callback) {
             var px = proj.px(ll, xyz[2]);
             px[0] -= xyz[0] * 256;
             px[1] -= xyz[1] * 256;
-            return px;
+            return [~~px[0], ~~px[1]];
+        }
+        function dist(a, b) {
+            return (
+                Math.abs(a[0] - b[0]) +
+                Math.abs(a[1] - b[1]));
         }
         var ctx = c.getContext('2d');
-        autoscale(c);
-        ctx.fillRect(0, 0, 20, 20);
         var px;
-        ctx.strokeStyle = '#000';
+        var colors = ['cyan', 'magenta', 'yellow', 'green'];
         ctx.lineWidth = 2;
+        ctx.globalAlpha = 0.7;
+        var color = 0;
         for (var i = 0; i < gj.features.length; i++) {
             var f = gj.features[i];
+            var last = [];
             if (f.geometry.type == 'LineString') {
                 var coords = f.geometry.coordinates;
                 if (coords.length < 2) continue;
+                ctx.strokeStyle = colors[color++ % 4];
 
                 ctx.beginPath();
-                px = tileProj(coords[0]);
+                last = px = tileProj(coords[0]);
                 ctx.moveTo(px[0], px[1]);
 
                 for (var j = 1; j < coords.length; j++) {
                     px = tileProj(coords[j]);
-                    ctx.lineTo(px[0], px[1]);
+                    var d = dist(px, last);
+                    if (d > 30) {
+                        ctx.stroke();
+                        ctx.strokeStyle = colors[color++ % 4];
+                        ctx.beginPath();
+                        ctx.moveTo(px[0], px[1]);
+                        last = px;
+                    } else if (d > 2) {
+                        ctx.lineTo(px[0], px[1]);
+                        last = px;
+                    }
                 }
 
                 ctx.stroke();

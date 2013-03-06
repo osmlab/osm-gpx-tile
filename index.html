@@ -4,6 +4,12 @@
         <title></title>
         <link rel='stylesheet' type='text/css' href='' />
         <meta http-equiv='content-type' content='text/html; charset=utf-8' />
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+        <![endif]-->
+
+        <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
         <style>
         #map {
             position:absolute;
@@ -16,24 +22,23 @@
     </head>
     <body>
         <div id='map'></div>
-        <script src='polymaps.js'></script>
         <script src='togeojson.js'></script>
         <script src='gpstile.js'></script>
-        <script src='gpstile.po.js'></script>
+        <script src='gpstile.l.js'></script>
         <script>
-            var po = org.polymaps;
+L.Control.Attribution.prototype.options.prefix = '';
+var map = L.map('map').setView([38.9, -76.99], 13);
 
-            var map = po.map()
-                .container(document.getElementById('map').appendChild(po.svg('svg')))
-                .center({lat: 37.76, lon: -122.44})
-                .zoom(14)
-                .zoomRange([2, 16])
-                .add(po.interact());
-
-            map.add(po.image()
-                .url(po.url('http://a.tiles.mapbox.com/v3/tmcw.map-gd6ae561/{Z}/{X}/{Y}.png')));
-
-            map.add(po.gpsLayer);
+if (L.Browser.retina) {
+    L.tileLayer('http://a.tiles.mapbox.com/v3/tmcw.map-8py9u67o/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+} else {
+    L.tileLayer('http://a.tiles.mapbox.com/v3/tmcw.map-nlcg49tr/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+}
+LgpsTile.addTo(map);
         </script>
     </body>
 </html>
