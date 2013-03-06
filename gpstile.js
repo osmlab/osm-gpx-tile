@@ -53,9 +53,10 @@ function xml(url, callback) {
         }
         var ctx = c.getContext('2d');
         var px;
-        var colors = ['cyan', 'magenta', 'yellow', 'green'];
+        var colors = ['cyan', 'magenta', 'yellow', '#96FFA7'];
         ctx.lineWidth = 2;
         ctx.globalAlpha = 0.7;
+        ctx.globalCompositeOperation = 'lighter';
         var color = 0;
         for (var i = 0; i < gj.features.length; i++) {
             var f = gj.features[i];
