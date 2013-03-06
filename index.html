@@ -24,11 +24,13 @@
         <div id='map'></div>
         <script src='togeojson.js'></script>
         <script src='gpstile.js'></script>
+        <script src='leaflet-hash.js'></script>
         <script src='gpstile.l.js'></script>
         <script>
 L.Control.Attribution.prototype.options.prefix = '';
 var map = L.map('map').setView([38.9, -76.99], 13);
 var attr = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors (this is <a href="http://github.com/tmcw/gpstile/">gpstile, and it is open source</a>)';
+map.addHash();
 
 if (L.Browser.retina) {
     L.tileLayer('http://a.tiles.mapbox.com/v3/tmcw.map-8py9u67o/{z}/{x}/{y}.png', {

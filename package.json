@@ -10,6 +10,7 @@
   "author": "",
   "license": "BSD",
   "dependencies": {
-    "sphericalmercator": "~1.0.2"
+    "sphericalmercator": "~1.0.2",
+    "leaflet-hash": "~0.1.1"
   }
 }
