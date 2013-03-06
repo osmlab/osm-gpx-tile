@@ -1,5 +1,4 @@
-var merc = require('sphericalmercator'),
-    autoscale = require('autoscale-canvas');
+var merc = require('sphericalmercator');
 
 function xml(url, callback) {
     var xhr = new XMLHttpRequest(),

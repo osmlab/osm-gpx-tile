@@ -1,5 +1,4 @@
-;(function(e,t,n,r){function i(r){if(!n[r]){if(!t[r]){if(e)return e(r);throw new Error("Cannot find module '"+r+"'")}var s=n[r]={exports:{}};t[r][0](function(e){var n=t[r][1][e];return i(n?n:e)},s,s.exports)}return n[r].exports}for(var s=0;s<r.length;s++)i(r[s]);return i})(typeof require!=="undefined"&&require,{1:[function(require,module,exports){var merc = require('sphericalmercator'),
-    autoscale = require('autoscale-canvas');
+;(function(e,t,n,r){function i(r){if(!n[r]){if(!t[r]){if(e)return e(r);throw new Error("Cannot find module '"+r+"'")}var s=n[r]={exports:{}};t[r][0](function(e){var n=t[r][1][e];return i(n?n:e)},s,s.exports)}return n[r].exports}for(var s=0;s<r.length;s++)i(r[s]);return i})(typeof require!=="undefined"&&require,{1:[function(require,module,exports){var merc = require('sphericalmercator');
 
 function xml(url, callback) {
     var xhr = new XMLHttpRequest(),
@@ -53,9 +52,8 @@ function xml(url, callback) {
                 Math.abs(a[1] - b[1]));
         }
         var ctx = c.getContext('2d');
-        ctx.globalCompositeOperation = 'lighter';
         var px;
-        var colors = ['cyan', 'magenta', 'yellow', '#96FFA7'];
+        var colors = ['cyan', 'magenta', 'yellow', 'green'];
         ctx.lineWidth = 2;
         ctx.globalAlpha = 0.7;
         var color = 0;
@@ -95,28 +93,7 @@ function xml(url, callback) {
     if (typeof window !== 'undefined') window.gpsTile = gpsTile;
 })();
 
-},{"autoscale-canvas":2,"sphericalmercator":3}],2:[function(require,module,exports){
-/**
- * Retina-enable the given `canvas`.
- *
- * @param {Canvas} canvas
- * @return {Canvas}
- * @api public
- */
-
-module.exports = function(canvas){
-  var ctx = canvas.getContext('2d');
-  var ratio = window.devicePixelRatio || 1;
-  if (1 != ratio) {
-    canvas.style.width = canvas.width + 'px';
-    canvas.style.height = canvas.height + 'px';
-    canvas.width *= ratio;
-    canvas.height *= ratio;
-    ctx.scale(ratio, ratio);
-  }
-  return canvas;
-};
-},{}],3:[function(require,module,exports){var SphericalMercator = (function(){
+},{"sphericalmercator":2}],2:[function(require,module,exports){var SphericalMercator = (function(){
 
 // Closures including constants and other precalculated values.
 var cache = {},

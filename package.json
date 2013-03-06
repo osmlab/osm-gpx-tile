@@ -10,7 +10,6 @@
   "author": "",
   "license": "BSD",
   "dependencies": {
-    "sphericalmercator": "~1.0.2",
-    "autoscale-canvas": "0.0.3"
+    "sphericalmercator": "~1.0.2"
   }
 }
