@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <link rel='stylesheet' type='text/css' href='' />
+        <meta http-equiv='content-type' content='text/html; charset=utf-8' />
+        <style>
+        #map {
+            position:absolute;
+            top:0;
+            right:0;
+            bottom:0;
+            left:0;
+        }
+        </style>
+    </head>
+    <body>
+        <div id='map'></div>
+        <script src='polymaps.js'></script>
+        <script src='togeojson.js'></script>
+        <script src='gpstile.js'></script>
+        <script src='gpstile.po.js'></script>
+        <script>
+            var po = org.polymaps;
+
+            var map = po.map()
+                .container(document.getElementById('map').appendChild(po.svg('svg')))
+                .center({lat: 37.76, lon: -122.44})
+                .zoom(14)
+                .zoomRange([2, 16])
+                .add(po.interact());
+
+            map.add(po.image()
+                .url(po.url('http://a.tiles.mapbox.com/v3/tmcw.map-gd6ae561/{Z}/{X}/{Y}.png')));
+
+            map.add(po.gpsLayer);
+        </script>
+    </body>
+</html>
