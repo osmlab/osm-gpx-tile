@@ -4,13 +4,12 @@
         <title></title>
         <link rel='stylesheet' type='text/css' href='' />
         <meta http-equiv='content-type' content='text/html; charset=utf-8' />
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
-        <![endif]-->
+        <link rel="stylesheet" href="lib/mapbox.css" />
 
-        <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
         <style>
+        body, input {
+            font: 25px/30px 'Helvetica Neue';
+        }
         #map {
             position:absolute;
             top:0;
@@ -18,30 +17,26 @@
             bottom:0;
             left:0;
         }
+        #gpstile .leaflet-control-attribution {
+            background: #000;
+            box-shadow:none;
+            color:#fff;
+        }
+        #gpstile a {
+            color:magenta;
+        }
+        input, button {
+            font:inherit;
+        }
         </style>
     </head>
-    <body>
+    <body id='gpstile'>
         <div id='map'></div>
-        <script src='togeojson.js'></script>
+        <script src="lib/mapbox.js"></script>
+        <script src='lib/togeojson.js'></script>
+        <script src='lib/sphericalmercator.js'></script>
         <script src='gpstile.js'></script>
-        <script src='leaflet-hash.js'></script>
         <script src='gpstile.l.js'></script>
-        <script>
-L.Control.Attribution.prototype.options.prefix = '';
-var map = L.map('map').setView([38.9, -76.99], 13);
-var attr = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors (this is <a href="http://github.com/tmcw/gpstile/">gpstile, and it is open source</a>)';
-map.addHash();
-
-if (L.Browser.retina) {
-    L.tileLayer('http://a.tiles.mapbox.com/v3/tmcw.map-8py9u67o/{z}/{x}/{y}.png', {
-        attribution: attr
-    }).addTo(map);
-} else {
-    L.tileLayer('http://a.tiles.mapbox.com/v3/tmcw.map-nlcg49tr/{z}/{x}/{y}.png', {
-        attribution: attr
-    }).addTo(map);
-}
-LgpsTile.addTo(map);
-        </script>
+        <script src='site.js'></script>
     </body>
 </html>
