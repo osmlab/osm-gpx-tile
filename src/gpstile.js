@@ -6,6 +6,7 @@ var osmGpx = require('osm-gpx'),
 
 function gpsTile(xyz, canvas, cb) {
     osmGpx(proj.bbox(xyz[0], xyz[1], xyz[2]), 5, function(err, gpx, gj) {
+        if (err) return;
         draw(canvas, xyz, gj);
         cb();
     });

@@ -12,7 +12,7 @@
   "dependencies": {
     "sphericalmercator": "~1.0.2",
     "leaflet-hash": "~0.1.1",
-    "osm-gpx": "0.0.0"
+    "osm-gpx": "0.0.1"
   },
   "devDependencies": {
     "uglify-js": "~2.2.5"
