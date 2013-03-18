@@ -1,37 +1,21 @@
 var toGeoJSON = require('togeojson'),
     sph = require('sphericalmercator'),
+    request = require('basicrequest'),
     proj = new sph(),
     base = 'http://api.openstreetmap.org/api/0.6/trackpoints?bbox=',
     colors = ['cyan', 'magenta', 'yellow', '#96FFA7'];
 
-function xml(url, callback) {
-    var xhr = new XMLHttpRequest(),
-        twoHundred = /^20\d$/;
-    xhr.onreadystatechange = function() {
-        if (4 == xhr.readyState && 0 !== xhr.status) {
-            if (twoHundred.test(xhr.status)) {
-                callback(null, xhr);
-            } else {
-                callback(xhr, null);
-            }
-        }
-    };
-    xhr.onerror = function(e) { return callback(e, null); };
-    xhr.open('GET', url, true);
-    xhr.send();
-}
-
 function gpsTile(xyz, canvas, cb) {
     var bbox = proj.bbox(xyz[0], xyz[1], xyz[2]);
     var url = base + bbox;
-    xml(url, function(err, x) {
+    request(url, function(err, x) {
         if (err) return; // TODO: handle
         draw(canvas, xyz, toGeoJSON.gpx(x.responseXML));
-        xml(url + '&page=1', function(err, x) {
+        request(url + '&page=1', function(err, x) {
             if (err) return; // TODO: handle
             draw(canvas, xyz, toGeoJSON.gpx(x.responseXML));
         });
-        xml(url + '&page=2', function(err, x) {
+        request(url + '&page=2', function(err, x) {
             if (err) return; // TODO: handle
             draw(canvas, xyz, toGeoJSON.gpx(x.responseXML));
         });
