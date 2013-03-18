@@ -6,11 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "",
-  "author": "",
+  "repository": "git@github.com:tmcw/gpstile.git",
+  "author": "Tom MacWright <tom@macwright.org>",
   "license": "BSD",
   "dependencies": {
     "sphericalmercator": "~1.0.2",
-    "leaflet-hash": "~0.1.1"
+    "leaflet-hash": "~0.1.1",
+    "togeojson": "~0.1.0"
+  },
+  "devDependencies": {
+    "uglify-js": "~2.2.5"
   }
 }
