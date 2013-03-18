@@ -1,24 +1,12 @@
-var toGeoJSON = require('togeojson'),
+var osmGpx = require('osm-gpx'),
     sph = require('sphericalmercator'),
-    request = require('basicrequest'),
     proj = new sph(),
     base = 'http://api.openstreetmap.org/api/0.6/trackpoints?bbox=',
     colors = ['cyan', 'magenta', 'yellow', '#96FFA7'];
 
 function gpsTile(xyz, canvas, cb) {
-    var bbox = proj.bbox(xyz[0], xyz[1], xyz[2]);
-    var url = base + bbox;
-    request(url, function(err, x) {
-        if (err) return; // TODO: handle
-        draw(canvas, xyz, toGeoJSON.gpx(x.responseXML));
-        request(url + '&page=1', function(err, x) {
-            if (err) return; // TODO: handle
-            draw(canvas, xyz, toGeoJSON.gpx(x.responseXML));
-        });
-        request(url + '&page=2', function(err, x) {
-            if (err) return; // TODO: handle
-            draw(canvas, xyz, toGeoJSON.gpx(x.responseXML));
-        });
+    osmGpx(proj.bbox(xyz[0], xyz[1], xyz[2]), 5, function(err, gpx, gj) {
+        draw(canvas, xyz, gj);
         cb();
     });
 }
