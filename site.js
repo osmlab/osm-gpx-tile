@@ -1,6 +1,6 @@
 L.Control.Attribution.prototype.options.prefix = '';
 var map = L.map('map', {minZoom: 14}).setView([38.9, -76.99], 13);
-var attr = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors (this is <a href="http://github.com/tmcw/gpstile/">gpstile, and it is open source</a>)';
+var attr = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors (this is <a href="https://github.com/osmlab/osm-gpx-tile/">gpstile, and it is open source</a>)';
 map.addHash();
 (new mapbox.geocoderControl('tmcw.map-nlcg49tr')).addTo(map);
 
